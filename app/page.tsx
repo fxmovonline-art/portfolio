@@ -315,7 +315,7 @@ export default function Home() {
           >
             <div className="group relative h-[320px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.6)] sm:h-[380px] lg:h-[420px]">
               <Image
-                src="/Images/image1.jpg"
+                src="/images/image1.jpg"
                 alt="Huzaifa Raheem"
                 fill
                 className="object-cover grayscale transition-all duration-700 ease-in-out group-hover:grayscale-0"
