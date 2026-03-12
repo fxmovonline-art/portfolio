@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Inter } from "next/font/google";
 
@@ -54,6 +55,11 @@ const socialLinks = [
     ),
   },
 ];
+
+const contactSocialOrder = ["GitHub", "LinkedIn", "X", "Instagram", "Facebook"];
+const contactSocialLinks = contactSocialOrder
+  .map((label) => socialLinks.find((item) => item.label === label))
+  .filter((item): item is (typeof socialLinks)[number] => Boolean(item));
 
 const projects = [
   {
@@ -127,6 +133,7 @@ const skillItems = [
 export default function Home() {
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
   const [roleWord, setRoleWord] = useState("Developer");
+  const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -477,6 +484,188 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── Contact Section ── */}
+      <section id="contact" className="relative overflow-hidden pb-24 pt-6 sm:pb-28 sm:pt-10">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(140,20,28,0.32),transparent_52%),radial-gradient(circle_at_80%_70%,rgba(120,10,20,0.22),transparent_55%)]" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
+          <h2 className="mb-12 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            <span className="text-white">Contact </span>
+            <span className="bg-gradient-to-r from-red-300 to-red-700 bg-clip-text text-transparent">Me</span>
+          </h2>
+
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-3xl border border-red-500/20 bg-gradient-to-br from-[#1a0506]/90 via-[#130405]/85 to-[#0d0d0d]/85 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.55)] sm:p-8">
+              <h3 className="text-3xl font-extrabold text-white">Send a Message</h3>
+              <p className="mt-2 text-slate-300/75">I&apos;ll get back to you within 24 hours.</p>
+
+              <form className="mt-8 space-y-6">
+                <div>
+                  <label htmlFor="contact-name" className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-red-300/75">
+                    Your Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    placeholder="John Doe"
+                    className="w-full rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="contact-email" className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-red-300/75">
+                    Your Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    placeholder="john@example.com"
+                    className="w-full rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="contact-message" className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-red-300/75">
+                    Your Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    rows={5}
+                    placeholder="Tell me about your project..."
+                    className="w-full resize-none rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-600 to-red-500 px-8 py-4 text-sm font-black uppercase tracking-[0.1em] text-white shadow-[0_12px_28px_rgba(220,38,38,0.35)]"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            <div className="space-y-8">
+              <div>
+                <h3 className="mb-4 text-3xl font-extrabold text-white">Direct Contact</h3>
+                <div className="space-y-4">
+                  <a
+                    href="mailto:huzaifaraheem2001@gmail.com"
+                    className="flex items-center gap-4 rounded-2xl border border-red-500/20 bg-[#130506]/80 p-4 transition hover:border-red-400/50"
+                  >
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/15 text-red-400">
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+                        <path d="M1.5 4.5h21v15h-21v-15Zm1.76 1.5L12 12.27 20.74 6H3.26Zm17.24 12V7.08l-8.06 5.78a.75.75 0 0 1-.88 0L3.5 7.08V18h17Z" />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-300/70">Email</p>
+                      <p className="text-lg font-semibold text-white">huzaifaraheem2001@gmail.com</p>
+                    </div>
+                  </a>
+
+                  <a
+                    href="tel:+923435156058"
+                    className="flex items-center gap-4 rounded-2xl border border-red-500/20 bg-[#130506]/80 p-4 transition hover:border-red-400/50"
+                  >
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/15 text-red-400">
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+                        <path d="M6.62 10.79a15.43 15.43 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.3 21 3 13.7 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.24 1.01l-2.21 2.2Z" />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-300/70">Phone</p>
+                      <p className="text-lg font-semibold text-white">+923435156058</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="mb-4 text-3xl font-extrabold text-white">Social Presence</h4>
+                <div className="flex flex-wrap gap-3">
+                  {contactSocialLinks.map((item) => (
+                    <a
+                      key={`contact-${item.label}`}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.label}
+                      className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/12 bg-white/5 text-white/90 transition hover:border-red-400/45 hover:text-white"
+                    >
+                      {item.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="relative border-t border-red-500/20 bg-[#090909]/95 pb-10 pt-14">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(220,38,38,0.15),transparent_50%)]" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.1fr_0.9fr_0.8fr]">
+            <div className="space-y-4">
+              <Link href="/" className="inline-flex items-center gap-3 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+                <span className="inline-block h-3 w-3 rounded-full bg-red-500 shadow-[0_0_14px_rgba(239,68,68,0.8)]" />
+                Huzaifa Raheem
+              </Link>
+              <p className="max-w-md text-slate-300/75">
+                Full-stack developer crafting high-performance digital products with clean code, sharp design, and meaningful user experiences.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-sm font-black uppercase tracking-[0.2em] text-red-300">Quick Links</h4>
+              <ul className="space-y-3 text-slate-300/80">
+                <li><a href="#about" className="transition hover:text-white">About</a></li>
+                <li><a href="#skills" className="transition hover:text-white">Skills</a></li>
+                <li><a href="#projects" className="transition hover:text-white">Projects</a></li>
+                <li><a href="#contact" className="transition hover:text-white">Contact</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-sm font-black uppercase tracking-[0.2em] text-red-300">Connect</h4>
+              <div className="flex flex-wrap gap-3">
+                {contactSocialLinks.map((item) => (
+                  <a
+                    key={`footer-${item.label}`}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-white/90 transition hover:border-red-400/45 hover:text-white"
+                  >
+                    {item.icon}
+                  </a>
+                ))}
+              </div>
+              <a
+                href="#"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-red-300 transition hover:border-red-400/60 hover:text-white"
+              >
+                Back To Top
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
+                  <path d="M11.47 5.47a.75.75 0 0 1 1.06 0l6 6a.75.75 0 1 1-1.06 1.06L12.75 7.81V19a.75.75 0 0 1-1.5 0V7.81l-4.72 4.72a.75.75 0 0 1-1.06-1.06l6-6Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-white/10 pt-5 text-center text-sm text-slate-400">
+            &copy; {currentYear} Huzaifa Raheem. Crafted with precision.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
