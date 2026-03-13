@@ -64,30 +64,30 @@ const contactSocialLinks = contactSocialOrder
 const projects = [
   {
     number: "01",
-    title: "DevFlow",
+    title: "RankIQ",
     description:
-      "A full-stack project management platform built for developer teams. Features real-time board updates, GitHub integration, role-based access control, and a clean dark-mode UI — all powered by Next.js and PostgreSQL via Prisma ORM.",
-    tags: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
-    href: "#",
-    image: "https://placehold.co/900x560/0f0202/ef4444?text=DevFlow",
+      "A specialized toolkit designed for SEO professionals to automate technical tasks like Schema Markup generation and keyword analysis. Built to bridge technical SEO and web development, this app reflects strong SEO knowledge and data-driven product engineering.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
+    href: "https://rank-iq.vercel.app",
+    image: "/images/project1.png",
   },
   {
     number: "02",
-    title: "ShopSphere",
+    title: "AI-FlashGen",
     description:
-      "A high-performance e-commerce storefront with product filtering, cart management, Stripe payments, and an admin dashboard. Built with the MERN stack, optimised for Core Web Vitals and SEO.",
-    tags: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
-    href: "#",
-    image: "https://placehold.co/900x560/0f0202/ef4444?text=ShopSphere",
+      "An AI-powered educational SaaS tool that generates study flashcards from dense notes using OpenAI/Gemini APIs. Designed with modern UX/UI principles, it helps learners build interactive study modules and highlights AI integration and responsive frontend execution.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
+    href: "https://ai-flashcards-red.vercel.app",
+    image: "/images/project2.png",
   },
   {
     number: "03",
-    title: "ChatNova",
+    title: "SmartNotes Pro",
     description:
-      "A real-time AI-assisted chat application with end-to-end encrypted rooms, typing indicators, file sharing, and an integrated GPT-powered assistant. Socket.IO on the backend with a sleek React frontend.",
-    tags: ["React", "Socket.IO", "Express", "OpenAI API", "MongoDB"],
-    href: "#",
-    image: "https://placehold.co/900x560/0f0202/ef4444?text=ChatNova",
+      "A full-stack task management application built with Next.js, Prisma, and PostgreSQL with secure authentication and real-time data handling. It helps users organize daily workflows through a clean, minimalist interface and demonstrates advanced CRUD and backend integration skills.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
+    href: "https://my-notes-app-real.vercel.app",
+    image: "/images/project3.png",
   },
 ];
 
@@ -276,12 +276,12 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap justify-center gap-4 pt-2 lg:justify-start">
-              <button
-                type="button"
+              <a
+                href="#contact"
                 className="rounded-2xl bg-gradient-to-r from-red-600 to-red-500 px-8 py-4 text-sm font-black uppercase tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(220,38,38,0.35)]"
               >
                 LET&apos;S COLLABORATE
-              </button>
+              </a>
               <button
                 type="button"
                 className="rounded-2xl border border-white/18 bg-white/[0.03] px-8 py-4 text-sm font-black uppercase tracking-[0.08em] text-white"
