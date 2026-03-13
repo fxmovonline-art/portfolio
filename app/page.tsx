@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -133,6 +133,16 @@ const skillItems = [
 export default function Home() {
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
   const [roleWord, setRoleWord] = useState("Developer");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
@@ -156,6 +166,51 @@ export default function Home() {
 
   const resetTilt = () => {
     setTilt({ rotateX: 0, rotateY: 0 });
+  };
+
+  const handleFormChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const payload = (await response.json().catch(() => null)) as { message?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(payload?.message ?? "Failed to send message. Please try again.");
+      }
+
+      setSubmitStatus({
+        type: "success",
+        message: payload?.message ?? "Message sent successfully.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      setSubmitStatus({
+        type: "error",
+        message: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -502,15 +557,19 @@ export default function Home() {
               <h3 className="text-3xl font-extrabold text-white">Send a Message</h3>
               <p className="mt-2 text-slate-300/75">I&apos;ll get back to you within 24 hours.</p>
 
-              <form className="mt-8 space-y-6">
+              <form onSubmit={handleContactSubmit} className="mt-8 space-y-6">
                 <div>
                   <label htmlFor="contact-name" className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-red-300/75">
                     Your Name
                   </label>
                   <input
                     id="contact-name"
+                    name="name"
                     type="text"
                     placeholder="John Doe"
+                    value={formData.name}
+                    onChange={handleFormChange}
+                    required
                     className="w-full rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
                   />
                 </div>
@@ -521,8 +580,12 @@ export default function Home() {
                   </label>
                   <input
                     id="contact-email"
+                    name="email"
                     type="email"
                     placeholder="john@example.com"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    required
                     className="w-full rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
                   />
                 </div>
@@ -533,18 +596,33 @@ export default function Home() {
                   </label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     rows={5}
                     placeholder="Tell me about your project..."
+                    value={formData.message}
+                    onChange={handleFormChange}
+                    required
                     className="w-full resize-none rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-white outline-none transition focus:border-red-400/60 focus:ring-2 focus:ring-red-500/30"
                   />
                 </div>
 
                 <button
-                  type="button"
+                  type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-red-600 to-red-500 px-8 py-4 text-sm font-black uppercase tracking-[0.1em] text-white shadow-[0_12px_28px_rgba(220,38,38,0.35)]"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
+
+                {submitStatus ? (
+                  <p
+                    className={`text-sm font-semibold ${
+                      submitStatus.type === "success" ? "text-emerald-300" : "text-red-300"
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </p>
+                ) : null}
               </form>
             </div>
 
