@@ -4,6 +4,22 @@ import { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const isFinePointerRef = useRef(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const updatePointerMode = () => {
+      isFinePointerRef.current = mediaQuery.matches;
+    };
+
+    updatePointerMode();
+    mediaQuery.addEventListener("change", updatePointerMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updatePointerMode);
+    };
+  }, []);
 
   useEffect(() => {
     const el = cursorRef.current;
@@ -14,13 +30,19 @@ export default function CustomCursor() {
     let my = -100;
 
     const onMove = (e: MouseEvent) => {
+      if (!isFinePointerRef.current) return;
       mx = e.clientX;
       my = e.clientY;
     };
 
     const loop = () => {
       if (el) {
-        el.style.transform = `translate(${mx}px, ${my}px)`;
+        if (isFinePointerRef.current) {
+          el.style.opacity = "1";
+          el.style.transform = `translate(${mx}px, ${my}px)`;
+        } else {
+          el.style.opacity = "0";
+        }
       }
       raf = requestAnimationFrame(loop);
     };
@@ -38,7 +60,7 @@ export default function CustomCursor() {
     <div
       ref={cursorRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[9999] will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-0 will-change-transform"
       // offset so the tip of the arrow sits exactly at the pointer hotspot
       style={{ marginLeft: 0, marginTop: 0 }}
     >

@@ -14,11 +14,16 @@
 
 html {
   background: var(--background);
-  cursor: none;
 }
 
-* {
-  cursor: none !important;
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: none;
+  }
+
+  * {
+    cursor: none !important;
+  }
 }
 
 body {
