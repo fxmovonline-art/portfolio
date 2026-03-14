@@ -101,23 +101,32 @@ export default function Home() {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: "8b99adba-7ea5-477f-ae98-f0171a369b92",
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
       });
 
-      const payload = (await response.json().catch(() => null)) as { message?: string } | null;
+      const payload = (await response.json().catch(() => null)) as {
+        success?: boolean;
+        message?: string;
+      } | null;
 
-      if (!response.ok) {
+      if (!response.ok || !payload?.success) {
         throw new Error(payload?.message ?? "Failed to send message. Please try again.");
       }
 
       setSubmitStatus({
         type: "success",
-        message: payload?.message ?? "Message sent successfully.",
+        message: "Message sent successfully. I'll get back to you soon!",
       });
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
