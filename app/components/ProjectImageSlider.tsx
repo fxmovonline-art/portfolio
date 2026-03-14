@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 type ProjectImageSliderProps = {
@@ -10,6 +10,7 @@ type ProjectImageSliderProps = {
 
 export default function ProjectImageSlider({ images, title }: ProjectImageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartXRef = useRef<number | null>(null);
 
   const goToPrev = () => {
     setActiveIndex((current) => (current === 0 ? images.length - 1 : current - 1));
@@ -19,13 +20,37 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
     setActiveIndex((current) => (current === images.length - 1 ? 0 : current + 1));
   };
 
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = touchStartXRef.current;
+    const endX = event.changedTouches[0]?.clientX;
+    touchStartXRef.current = null;
+
+    if (startX === null || endX === undefined) return;
+
+    const deltaX = endX - startX;
+    const swipeThreshold = 40;
+
+    if (deltaX > swipeThreshold) {
+      goToPrev();
+      return;
+    }
+
+    if (deltaX < -swipeThreshold) {
+      goToNext();
+    }
+  };
+
   return (
     <div className="relative">
       <button
         type="button"
         aria-label="Previous screenshot"
         onClick={goToPrev}
-        className="absolute -left-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-white/10 text-xl text-white/80 transition hover:bg-white/20 lg:flex"
+        className="absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-lg text-white/90 transition hover:bg-black/55 lg:left-[-1rem] lg:h-10 lg:w-10 lg:bg-white/10 lg:text-xl lg:hover:bg-white/20"
       >
         ‹
       </button>
@@ -34,12 +59,16 @@ export default function ProjectImageSlider({ images, title }: ProjectImageSlider
         type="button"
         aria-label="Next screenshot"
         onClick={goToNext}
-        className="absolute -right-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-white/10 text-xl text-white/80 transition hover:bg-white/20 lg:flex"
+        className="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-lg text-white/90 transition hover:bg-black/55 lg:right-[-1rem] lg:h-10 lg:w-10 lg:bg-white/10 lg:text-xl lg:hover:bg-white/20"
       >
         ›
       </button>
 
-      <div className="relative overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
+      <div
+        className="relative overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <Image
           src={images[activeIndex]}
           alt={`${title} project preview ${activeIndex + 1}`}
