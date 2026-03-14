@@ -208,12 +208,14 @@ export default function Home() {
               >
                 LET&apos;S COLLABORATE
               </a>
-              <button
-                type="button"
+              <a
+                href="https://drive.google.com/file/d/1PjFI5hOAswCPGLfRKIcEj9A2gClJhsBk/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-2xl border border-white/18 bg-white/[0.03] px-8 py-4 text-sm font-black uppercase tracking-[0.08em] text-white"
               >
                 GET RESUME
-              </button>
+              </a>
             </div>
           </motion.div>
 
