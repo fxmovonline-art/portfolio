@@ -455,7 +455,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                           <span className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold tracking-widest text-white backdrop-blur-sm">
-                            Tap to see
+                            Tap to See / Learn More
                           </span>
                         </div>
                       </Link>
